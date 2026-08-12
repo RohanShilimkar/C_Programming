@@ -1,0 +1,46 @@
+#include<stdio.h>
+#include<fcntl.h>      //File Control.h
+#include<unistd.h>      //Only Linux Based
+#include<string.h>
+
+
+#define BUFFER_SIZE 100
+
+int main()
+{
+    int fd = 0;                     //File Descriptor 
+    int iRet = 0;
+    char Data[BUFFER_SIZE] = {'\0'};
+
+
+    fd = open("Marvellous.txt",O_RDONLY);
+
+    if(fd == -1)
+    {
+        printf("Unable to Open File!");
+    }
+    else
+    {
+        printf("File Gets Sucessfully Opened with fd: %d\n",fd);
+     
+        iRet = read(fd,Data,13);
+
+        printf("%d Bytes Gets Successfully Read\n",iRet);
+
+        printf("Data from file is: %s\n",Data);
+
+        //////// Issue Solved ////////
+
+        memset(Data,'\0',sizeof(Data));
+     
+        iRet = read(fd,Data,3);
+
+        printf("%d Bytes Gets Successfully Read\n",iRet);
+
+        printf("Data from file is: %s\n",Data);
+
+        close(fd);
+    }
+
+    return 0;
+}
